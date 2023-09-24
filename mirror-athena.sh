@@ -1,28 +1,66 @@
 #written by Pardesi_Cat
+#for report or any queries contact https://pardesicat.xyz
 
-syync () {
-    git clone https://github.com/Athena-OS/athena-repository.git
+mirror="https://github.com/Athena-OS/athena-repository.git"
+name="athena-repository"
+
+
+# custom commads 
+
+check_git () {
+
+if ! command -v git &> /dev/null; then
+	echo -e "git not found install git first"
+	sleep 3
+	exit
+fi
 }
 
-place="/home/linuxmirror/athena-repository/athena-repository"
-checkp="/home/linuxmirror/athena-repository/"
-
-echo -e "checking if mirror already exist"
-
-if [ -d $checkp ] ; then
-
-
-echo -e "starting the sync"
-
-cd $place
-sleep2
-git pull
+install_repo () {
+      
+	echo -e "installing Mirror files 1st time,"
+	
+if [ -d .git ]; then
+	rm -rf .git
+	git init
+	git remote add origin "$mirror" &> /dev/null
+        echo "syning"
+	git fetch
 
 else 
-	echo "doesnt exist any mirror files"
-	sleep 2
-	cd $checkp
-	sleep 2 
-	echo -e "syncing started, take tea/coffe break"
-        syync
+	git init
+	git remote add origin "$mirror" &> /dev/null
+	echo "syncing"
+        git fetch
 fi
+ 
+}
+
+update_mirror () {
+
+    echo "syning mirror files..."
+    git pull origin master
+    echo "Syncing successfully done!"
+
+}
+
+
+# main works starts
+
+check_git
+
+if [ -d x86_64 ]; then
+
+	echo -e "syncing updated mirror files"
+	update_mirror
+	git pull origin master
+	echo -e "Done"
+else
+     echo "no mirror found"
+     intall_repo
+     git pull origin master
+     echo -e "Done"
+fi
+
+# main work end
+
