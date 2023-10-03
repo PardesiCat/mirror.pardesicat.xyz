@@ -20,7 +20,7 @@ install_repo () {
       
 	echo -e "installing Mirror files 1st time,"
 	
-if [ -d .git ]; then
+if [ -e .git ]; then
 	rm -rf .git
 	git init
 	git remote add origin "$mirror" &> /dev/null
@@ -39,7 +39,7 @@ fi
 update_mirror () {
 
     echo "syning mirror files..."
-    git pull origin master
+    git pull origin main
     echo "Syncing successfully done!"
 
 }
@@ -49,16 +49,16 @@ update_mirror () {
 
 check_git
 
-if [ -d x86_64 ]; then
+if [ -e x86_64 ]; then
 
 	echo -e "syncing updated mirror files"
 	update_mirror
-	git pull origin master
+	git pull origin main
 	echo -e "Done"
 else
      echo "no mirror found"
-     intall_repo
-     git pull origin master
+     install_repo
+     git pull origin main
      echo -e "Done"
 fi
 
