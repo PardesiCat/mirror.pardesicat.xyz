@@ -1,17 +1,20 @@
 #written by pardeiscat
 
 
-path=/home/linuxmirror/archlinux/
-income=ftp.halifax.rwth-aachen.de/archlinux/
+income=ftp.halifax.rwth-aachen.de
+
+name="archlinux"
+
+path=/home/linuxmirror/"$name"
 
 
 syync () {
  
-	rsync -rlptH --safe-links --delete-delay --delay-updates rsync://$income $path
+	rsync -rlptH --safe-links --delete-delay --delay-updates rsync://$income/"$name/" "$path"/
 
 	
 }
 
-echo -e "starting the arch sync"
+echo -e "starting the "$name" sync"
 sleep 2 
 syync
